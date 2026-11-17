@@ -1,0 +1,122 @@
+
+.audrey-page {
+  min-height: 100vh;
+  background: #f6f7fc;
+  color: #182033;
+  font-family: Arial, sans-serif;
+}
+
+.audrey-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 6%;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.audrey-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+}
+
+.audrey-logo {
+  background: #7047ff;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.audrey-main {
+  width: min(100% - 40px, 950px);
+  margin: 50px auto;
+}
+
+.audrey-hero {
+  background: #ede9fe;
+  border-radius: 20px;
+  padding: 55px 25px;
+  text-align: center;
+}
+
+.audrey-eyebrow {
+  color: #6241d7;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.audrey-hero h1 {
+  font-size: clamp(28px, 5vw, 46px);
+  margin: 15px 0;
+}
+
+.audrey-card {
+  margin-top: 25px;
+  padding: 35px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(30, 30, 60, 0.04);
+}
+
+.audrey-card h2 {
+  font-size: 23px;
+  margin: 0 0 16px;
+}
+
+.audrey-card p {
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.audrey-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.audrey-skills span {
+  background: #f0ecff;
+  color: #6241d7;
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.audrey-back {
+  display: inline-block;
+  background: #7047ff;
+  color: white;
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.audrey-back:hover {
+  background: #5734d6;
+}
+
+@media (max-width: 600px) {
+  .audrey-header {
+    padding: 16px 20px;
+  }
+
+  .audrey-main {
+    margin: 24px auto;
+  }
+
+  .audrey-hero {
+    padding: 40px 20px;
+  }
+
+  .audrey-card {
+    padding: 24px;
+  }
+}
