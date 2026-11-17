@@ -10,6 +10,10 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     defaults:
       run:
         working-directory: backend
@@ -24,5 +28,15 @@ jobs:
       - name: Check scripts
         run: npm run
 
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build image
-        run: docker build -t myapp:${{ github.sha }} ..
+        run: docker build -t ghcr.io/${{ github.repository }}/myapp:${{ github.sha }} ..
+
+      - name: Push image
+        run: docker push ghcr.io/${{ github.repository }}/myapp:${{ github.sha }}
