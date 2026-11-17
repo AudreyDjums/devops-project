@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Audrey from "./pages/Audrey";
 import "./App.css";
 
 const people = [
@@ -32,6 +33,14 @@ const people = [
 ];
 
 export default function App() {
+    const [currentPage, setCurrentPage] = useState(
+    window.location.pathname
+  );
+
+    const openAudreyPage = () => {
+    window.history.pushState({}, "", "/audrey");
+    setCurrentPage("/audrey");
+  };
   const [search, setSearch] = useState("");
 
   const filteredPeople = people.filter((person) =>
@@ -39,6 +48,10 @@ export default function App() {
       .toLowerCase()
       .includes(search.trim().toLowerCase())
   );
+
+  if (currentPage === "/audrey") {
+  return <Audrey />;
+  }
 
   return (
     <div className="dashboard">
@@ -96,6 +109,15 @@ export default function App() {
                       <li key={skill}>{skill}</li>
                     ))}
                   </ul>
+                  {person.id === 3 && (
+                    <button
+                     type="button"
+                     onClick={openAudreyPage}
+                     className="profile-link"
+                     >
+                     Voir ma page →
+                    </button>
+                   )}
                 </div>
               </article>
             ))}
