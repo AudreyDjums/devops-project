@@ -39,4 +39,5 @@ jobs:
         run: docker build -t ghcr.io/audreydjums/devops-project:${{ github.sha }} ..
 
       - name: Push image
+        if: github.ref == 'refs/heads/main'
         run: docker push ghcr.io/audreydjums/devops-project:${{ github.sha }}
