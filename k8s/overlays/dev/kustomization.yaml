@@ -1,0 +1,22 @@
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev
+
+resources:
+  - ../../base
+
+replicas:
+  - name: myapp
+    count: 2
+
+labels:
+  - pairs:
+      env: dev
+    includeSelectors: false
+
+images:
+  - name: teamspace-audrey
+    newTag: "0.4"
+
