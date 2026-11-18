@@ -21,6 +21,8 @@ export default function Audrey() {
           <p>Product Manager • DevOps Team Member</p>
         </section>
 
+        <p>Teamspace - Version 0.4 (Rolling Update)</p>
+
         <section className="audrey-card">
           <h2>About me</h2>
           <p>
