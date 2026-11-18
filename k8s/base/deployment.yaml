@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+      containers:
+        - name: myapp
+          image: ghcr.io/audreydjums/devops-project:202f668e0bdebe49f15a9726cf6a4449373727b1
+          ports:
+            - containerPort: 3000
