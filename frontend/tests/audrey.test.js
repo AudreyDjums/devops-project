@@ -8,7 +8,7 @@ test("La page Audrey existe et contient son nom", () => {
     "utf8"
   );
 
-  assert.match(page, /Audrey/);
+  assert.match(page, /NomInexistant123/);
 });
 
 test("La page Audrey possède un lien de retour", () => {
