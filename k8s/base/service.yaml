@@ -1,13 +1,13 @@
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: team-dashboard
+  name: myapp
 spec:
   type: ClusterIP
   selector:
-    app: team-dashboard
+    app: myapp
   ports:
-    - name: http
-      port: 3000
-      targetPort: http
+    - port: 80
+      targetPort: 8080
       protocol: TCP
