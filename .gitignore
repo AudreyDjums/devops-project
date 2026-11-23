@@ -17,3 +17,11 @@ frontend/dist
 .idea
 
 npm-debug.log
+
+**/.terraform/
+*.tfstate.*
+*.secret.tfvars
+*.secrets.tfvars
+*.tfstate
+*.auto.tfvars
+*.tfplan
