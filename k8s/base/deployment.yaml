@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-dashboard
+  labels:
+    app: team-dashboard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: team-dashboard
+  template:
+    metadata:
+      labels:
+        app: team-dashboard
+    spec:
+      containers:
+        - name: team-dashboard
+          image: devops-lab:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
