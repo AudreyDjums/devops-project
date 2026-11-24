@@ -7,9 +7,9 @@ terraform {
   }
 }
 
-
 resource "docker_image" "app" {
-  name = var.image
+  name         = var.image
+  keep_locally = true
 }
 
 resource "docker_container" "web" {
@@ -19,5 +19,6 @@ resource "docker_container" "web" {
   ports {
     internal = 80
     external = var.external_port
+    ip       = "127.0.0.1"
   }
 }

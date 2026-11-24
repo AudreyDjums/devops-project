@@ -1,5 +1,4 @@
-
-name: Terraform CI
+name: Terraform
 
 on:
   pull_request:
@@ -11,66 +10,53 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  terraform:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
 
-      - name: Terraform Init
-        run: terraform -chdir=infra/envs/dev init -backend=false
+      - name: Check formatting
+        run: terraform fmt -check -recursive infra
 
-      - name: Terraform Format Check
-        run: terraform -chdir=infra/envs/dev fmt -check
-
-      - name: Terraform Validate
-        run: terraform -chdir=infra/envs/dev validate
-
-  plan:
-    runs-on: ubuntu-latest
-    needs: validate
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Configure CI local backend
+      - name: Initialize and validate each root
+        shell: bash
         run: |
-          terraform -chdir=infra/envs/dev init -reconfigure -backend-config="path=ci.tfstate"
+          set -euo pipefail
+          for root in infra/quickstart infra/envs/dev infra/envs/staging infra/preview; do
+            terraform -chdir="$root" init -backend=false -input=false
+            terraform -chdir="$root" validate
+          done
 
-      - name: Terraform Plan
+      - name: Plan the dev environment
+        shell: bash
         run: |
-          set -o pipefail
-          terraform -chdir=infra/envs/dev plan -input=false -no-color -var-file=dev.tfvars | tee terraform-plan.txt
+          set -euo pipefail
+          mkdir -p infra/shared-state
+          terraform -chdir=infra/envs/dev init -input=false
+          terraform -chdir=infra/envs/dev plan \
+            -input=false -no-color -var-file=dev.tfvars \
+            | tee "$RUNNER_TEMP/dev-plan.txt"
 
-      - name: Upload Terraform Plan
+      - name: Upload readable plan
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan
-          path: terraform-plan.txt
+          name: terraform-dev-plan
+          path: ${{ runner.temp }}/dev-plan.txt
           retention-days: 7
 
-  
   security:
     runs-on: ubuntu-latest
-    needs: validate
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Run Checkov security scan
-        uses: bridgecrewio/checkov-action@v12
+      - name: Scan infrastructure for HIGH and CRITICAL misconfigurations
+        uses: aquasecurity/trivy-action@0.33.1
         with:
-          directory: infra/
-          framework: terraform
-          soft_fail: false
-          output_format: cli
-
+          scan-type: config
+          scan-ref: infra
+          severity: HIGH,CRITICAL
+          exit-code: "1"

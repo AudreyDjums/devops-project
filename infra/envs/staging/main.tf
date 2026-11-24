@@ -9,7 +9,6 @@ terraform {
 
 provider "docker" {}
 
-
 variable "env_name" {
   type = string
 }

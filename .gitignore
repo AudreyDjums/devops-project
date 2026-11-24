@@ -19,9 +19,9 @@ frontend/dist
 npm-debug.log
 
 **/.terraform/
-*.tfstate.*
-*.secret.tfvars
-*.secrets.tfvars
-*.tfstate
-*.auto.tfvars
+*.tfstate*
 *.tfplan
+*.tfvars
+*.tfvars.json
+!infra/envs/dev/dev.tfvars
+!infra/envs/staging/staging.tfvars

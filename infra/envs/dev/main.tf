@@ -5,14 +5,9 @@ terraform {
       version = "~> 3.0"
     }
   }
-
-  backend "local" {
-    path = "C:/Users/laris/terraform-shared-state/dev.tfstate"
-  }
 }
 
 provider "docker" {}
-
 
 variable "env_name" {
   type = string
@@ -36,4 +31,3 @@ module "webapp" {
 output "app_url" {
   value = module.webapp.app_url
 }
-
