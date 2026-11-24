@@ -48,6 +48,7 @@ jobs:
           path: ${{ runner.temp }}/dev-plan.txt
           retention-days: 7
 
+  
   security:
     runs-on: ubuntu-latest
     steps:
@@ -55,8 +56,12 @@ jobs:
 
       - name: Scan infrastructure for HIGH and CRITICAL misconfigurations
         uses: aquasecurity/trivy-action@v0.36.0
+        env:
+          TRIVY_MISCONFIG_SCANNERS: terraform,kubernetes
         with:
           scan-type: config
           scan-ref: infra
           severity: HIGH,CRITICAL
           exit-code: "1"
+          format: table
+
