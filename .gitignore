@@ -17,3 +17,8 @@ frontend/dist
 .idea
 
 npm-debug.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
