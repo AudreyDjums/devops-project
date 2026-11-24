@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lab3-scan-example
+spec:
+  automountServiceAccountToken: false
+  containers:
+    - name: example
+      image: nginx:1.27
+      securityContext:
+        privileged: true
