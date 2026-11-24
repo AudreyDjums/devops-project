@@ -1,0 +1,25 @@
+﻿NAME    STATUS   AGE
+pr-42   Active   15m
+pr-43   Active   2m59s
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/myapp-54dcf79657-45q55   1/1     Running   0          16m
+
+NAME                    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/myapp-service   ClusterIP   10.96.193.62   <none>        80/TCP    16m
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/myapp   1/1     1            1           16m
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/myapp-54dcf79657   1         1         1       16m
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/myapp-54dcf79657-tm2gg   1/1     Running   0          3m50s
+
+NAME                    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/myapp-service   ClusterIP   10.96.55.216   <none>        80/TCP    3m50s
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/myapp   1/1     1            1           3m50s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/myapp-54dcf79657   1         1         1       3m50s
