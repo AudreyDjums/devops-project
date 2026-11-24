@@ -17,3 +17,11 @@ frontend/dist
 .idea
 
 npm-debug.log
+
+**/.terraform/
+*.tfstate*
+*.tfplan
+*.tfvars
+*.tfvars.json
+!infra/envs/dev/dev.tfvars
+!infra/envs/staging/staging.tfvars

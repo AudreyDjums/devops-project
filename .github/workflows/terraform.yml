@@ -1,0 +1,62 @@
+name: Terraform
+
+on:
+  pull_request:
+    paths:
+      - "infra/**"
+      - ".github/workflows/terraform.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive infra
+
+      - name: Initialize and validate each root
+        shell: bash
+        run: |
+          set -euo pipefail
+          for root in infra/quickstart infra/envs/dev infra/envs/staging infra/preview; do
+            terraform -chdir="$root" init -backend=false -input=false
+            terraform -chdir="$root" validate
+          done
+
+      - name: Plan the dev environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p infra/shared-state
+          terraform -chdir=infra/envs/dev init -input=false
+          terraform -chdir=infra/envs/dev plan \
+            -input=false -no-color -var-file=dev.tfvars \
+            | tee "$RUNNER_TEMP/dev-plan.txt"
+
+      - name: Upload readable plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-dev-plan
+          path: ${{ runner.temp }}/dev-plan.txt
+          retention-days: 7
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan infrastructure for HIGH and CRITICAL misconfigurations
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: config
+          scan-ref: infra
+          severity: HIGH,CRITICAL
+          exit-code: "1"
