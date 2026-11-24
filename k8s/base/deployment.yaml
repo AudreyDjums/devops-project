@@ -1,7 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: myapp
+  annotations:
+    commit-sha: "202f668e0bdebe49f15a9726cf6a4449373727b1"
+    pipeline-run: "https://github.com/AudreyDjums/devops-project/actions"
+    owner: "Mauranne"
+    ticket: "DEVOPS-001"
 
 spec:
   replicas: 3
